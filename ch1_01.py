@@ -24,6 +24,7 @@ nameEntered.grid(column=0, row=1)
 
 # Adding a Button
 action = ttk.Button(win, text="Click Me!", command=clickMe)
+action.configure(state='disabled')  # Disable the Button Widget
 # Position Buttion in second row
 action.grid(column=1, row=1)
 nameEntered.focus()
