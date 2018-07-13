@@ -19,11 +19,11 @@ ttk.Label(win, text="Enter a name:").grid(column=0, row=0)
 # Adding a Textbox Entry widget
 name = tk.StringVar()
 nameEntered = ttk.Entry(win, width=12, textvariable=name)
+nameEntered.bind("<Return>", (lambda event: clickMe()))
 nameEntered.grid(column=0, row=1)
 
 # Adding a Button
 action = ttk.Button(win, text="Click Me!", command=clickMe)
-action.bind("<Return>", (lambda event: clickMe())
 # Position Buttion in second row
 action.grid(column=1, row=1)
 nameEntered.focus()
