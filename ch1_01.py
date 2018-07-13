@@ -64,6 +64,15 @@ def radCall():
 radVar = tk.IntVar()
 
 # Now we select a non-existing index value for radVar
+radVar.set(99)
+# Now we create all three Radiobutton widgets within one loop
+for col in range(3):
+    curRad = 'rad' + str(col)
+    curRad = tk.Radiobutton(win, text=colors[col], variable=radVar, 
+            value=col, command=radCall)
+    curRad.grid(column=col, row=5, sticky=tk.W)
+
+# Now we select a non-existing index value for radVar
 #radVar.set(99)
 # Now we create all three Radiobutton widgets within one loop
 for col in range(3):
