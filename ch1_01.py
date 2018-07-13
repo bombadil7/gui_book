@@ -11,11 +11,20 @@ aLabel.grid(column=0, row=0)
 
 
 def clickMe():
-    action.configure(text="** I have been Clicked! **")
-    aLabel.configure(foreground='red')
+    action.configure(text="Hello " + name.get())
+
+# Changing our Label
+ttk.Label(win, text="Enter a name:").grid(column=0, row=0)
+
+# Adding a Textbox Entry widget
+name = tk.StringVar()
+nameEntered = ttk.Entry(win, width=12, textvariable=name)
+nameEntered.grid(column=0, row=1)
 
 # Adding a Button
 action = ttk.Button(win, text="Click Me!", command=clickMe)
-action.grid(column=1, row=0)
+# Position Buttion in second row
+action.grid(column=1, row=1)
+
 
 win.mainloop()
