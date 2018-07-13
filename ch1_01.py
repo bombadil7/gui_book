@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import scrolledtext
 
 win = tk.Tk()
 win.title("Python GUI")
@@ -69,7 +70,12 @@ rad2.grid(column=1, row=5, sticky=tk.W)
 rad3 = tk.Radiobutton(win, text=COLOR3, variable=radVar, value=3, command=radCall)
 rad3.grid(column=2, row=5, sticky=tk.W)
 
+# Using a scrolled Text control
+scrolW = 30
+scrolH = 3
 
+scr = scrolledtext.ScrolledText(win, width=scrolW, height=scrolH, wrap=tk.WORD)
+scr.grid(column=0, columnspan=3)
 # Adding a Button
 action = ttk.Button(win, text="Click Me!", command=clickMe)
 action.configure(state='disabled')  # Disable the Button Widget
