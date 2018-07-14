@@ -86,13 +86,15 @@ action.grid(column=2, row=1)
 
 # Create a container to hold labels
 labelsFrame = ttk.LabelFrame(win, text=' Labels in a Frame ')
-labelsFrame.grid(column=0, row=7)
+labelsFrame.grid(column=0, row=7, padx=20, pady=30)
 
 # Place labels into the container element
 ttk.Label(labelsFrame, text="Label1").grid(column=0, row=0)
 ttk.Label(labelsFrame, text="Label2").grid(column=1, row=0)
 ttk.Label(labelsFrame, text="Label3").grid(column=2, row=0)
 
+for child in labelsFrame.winfo_children():
+    child.grid_configure(padx=8, pady=4)
 nameEntered.focus()
 
 win.mainloop()
