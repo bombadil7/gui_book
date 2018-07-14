@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import scrolledtext
+from tkinter import Menu
 
 win = tk.Tk()
 win.title("Python GUI")
@@ -99,5 +100,17 @@ ttk.Label(labelsFrame, text="Label3").grid(column=0, row=2, sticky='W')
 for child in labelsFrame.winfo_children():
     child.grid_configure(padx=8, pady=4)
 nameEntered.focus()
+
+menuBar = Menu(win)
+win.config(menu=menuBar)
+fileMenu = Menu(menuBar, tearoff=0)
+fileMenu.add_command(label="New")
+fileMenu.add_separator()
+fileMenu.add_command(label="Exit")
+menuBar.add_cascade(label="File", menu=fileMenu)
+
+helpMenu = Menu(menuBar, tearoff=0)
+helpMenu.add_command(label="About")
+menuBar.add_cascade(label="Help", menu=helpMenu)
 
 monty.mainloop()
