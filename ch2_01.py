@@ -64,7 +64,7 @@ def radCall():
 radVar = tk.IntVar()
 
 # Now we select a non-existing index value for radVar
-#radVar.set(99)
+radVar.set(99)
 # Now we create all three Radiobutton widgets within one loop
 for col in range(3):
     curRad = 'rad' + str(col)
@@ -83,6 +83,16 @@ action = ttk.Button(win, text="Click Me!", command=clickMe)
 action.configure(state='disabled')  # Disable the Button Widget
 # Position Buttion in second row
 action.grid(column=2, row=1)
+
+# Create a container to hold labels
+labelsFrame = ttk.LabelFrame(win, text=' Labels in a Frame ')
+labelsFrame.grid(column=0, row=7)
+
+# Place labels into the container element
+ttk.Label(labelsFrame, text="Label1").grid(column=0, row=0)
+ttk.Label(labelsFrame, text="Label2").grid(column=1, row=0)
+ttk.Label(labelsFrame, text="Label3").grid(column=2, row=0)
+
 nameEntered.focus()
 
 win.mainloop()
