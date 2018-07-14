@@ -78,6 +78,7 @@ scrolH = 3
 
 scr = scrolledtext.ScrolledText(win, width=scrolW, height=scrolH, wrap=tk.WORD)
 scr.grid(column=0, columnspan=3, row=5)
+#scr.grid(column=0, columnspan=3, row=5, sticky='WE')
 # Adding a Button
 action = ttk.Button(win, text="Click Me!", command=clickMe)
 action.configure(state='disabled')  # Disable the Button Widget
@@ -86,7 +87,7 @@ action.grid(column=2, row=1)
 
 # Create a container to hold labels
 labelsFrame = ttk.LabelFrame(win, text=' Labels in a Frame ')
-labelsFrame.grid(column=0, row=7, padx=20, pady=30)
+labelsFrame.grid(column=1, row=7, padx=20, pady=30)
 
 # Place labels into the container element
 ttk.Label(labelsFrame, text="Label1").grid(column=0, row=0)
