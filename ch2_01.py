@@ -101,12 +101,18 @@ for child in labelsFrame.winfo_children():
     child.grid_configure(padx=8, pady=4)
 nameEntered.focus()
 
+def _quit():
+    win.quit()
+    win.destroy()
+    exit()
+
 menuBar = Menu(win)
 win.config(menu=menuBar)
+
 fileMenu = Menu(menuBar, tearoff=0)
 fileMenu.add_command(label="New")
 fileMenu.add_separator()
-fileMenu.add_command(label="Exit")
+fileMenu.add_command(label="Exit", command=_quit)
 menuBar.add_cascade(label="File", menu=fileMenu)
 
 helpMenu = Menu(menuBar, tearoff=0)
