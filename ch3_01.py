@@ -6,6 +6,8 @@ from tkinter import messagebox as mBox
 
 win = tk.Tk()
 win.title("Python GUI")
+# r escapes backslashes, so we don't have to type C:\\
+win.iconbitmap(r'C:\Users\akniazev\AppData\Local\Programs\Python\Python36\DLLs\pyc.ico')
 
 tabControl = ttk.Notebook(win)
 tab1 = ttk.Frame(tabControl)
