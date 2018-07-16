@@ -131,8 +131,15 @@ fileMenu.add_command(label="Exit", command=_quit)
 menuBar.add_cascade(label="File", menu=fileMenu)
 
 def _msgBox():
-    mBox.showinfo('Python Message Info Box', 'A Python GUI created using tkinter:\n\
-            The year is 2018.')
+#    mBox.showinfo('Python Message Info Box', 'A Python GUI created using tkinter:\n\
+#            The year is 2018.')
+#    mBox.showwarning('Python Message Info Box', 'A Python GUI created using tkinter:\n\
+#            Warning: There might be a bug in this code.')
+#    mBox.showerror('Python Message Info Box', 'A Python GUI created using tkinter:\n\
+#            Error: Houston ~ we DO have a serious PROBLEM!')
+    answer = mBox.askyesno("Python Message Dual Choice Box", 
+            "Are you sure you really wish to do this?")
+    print(answer)
 
 helpMenu = Menu(menuBar, tearoff=0)
 helpMenu.add_command(label="About", command=_msgBox)
