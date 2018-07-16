@@ -64,28 +64,20 @@ def radCall():
 radVar = tk.IntVar()
 
 # Now we select a non-existing index value for radVar
-radVar.set(99)
-# Now we create all three Radiobutton widgets within one loop
-for col in range(3):
-    curRad = 'rad' + str(col)
-    curRad = tk.Radiobutton(win, text=colors[col], variable=radVar, 
-            value=col, command=radCall)
-    curRad.grid(column=col, row=5, sticky=tk.W)
-
-# Now we select a non-existing index value for radVar
 #radVar.set(99)
 # Now we create all three Radiobutton widgets within one loop
 for col in range(3):
     curRad = 'rad' + str(col)
     curRad = tk.Radiobutton(win, text=colors[col], variable=radVar, 
             value=col, command=radCall)
-    curRad.grid(column=col, row=5, sticky=tk.W)
+    curRad.grid(column=col, row=6, sticky=tk.W)
+
 # Using a scrolled Text control
 scrolW = 30
 scrolH = 3
 
 scr = scrolledtext.ScrolledText(win, width=scrolW, height=scrolH, wrap=tk.WORD)
-scr.grid(column=0, columnspan=3)
+scr.grid(column=0, columnspan=3, row=5)
 # Adding a Button
 action = ttk.Button(win, text="Click Me!", command=clickMe)
 action.configure(state='disabled')  # Disable the Button Widget
