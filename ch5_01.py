@@ -11,7 +11,7 @@ axis = fig.add_subplot(211)   # 2 rows, 1 column, Top graph
 xValues = [1, 2, 3, 4]
 
 yValues0 = [6, 7.5, 8, 7.5]
-yValues1 = [5.5, 6.5, 8, 6]
+yValues1 = [5.5, 6.5, 50, 6]
 yValues2 = [6.5, 7, 8, 7]
 
 t0, = axis.plot(xValues, yValues0, color = 'purple')
