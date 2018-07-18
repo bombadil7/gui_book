@@ -30,15 +30,19 @@ class OOP():
         self.win.title("Python GUI")      
         self.create_widgets()
 
-    def methodInAThread(self):
-        print('Hi, how are you?')
-        for idx in range(10):
-            sleep(5)
+    def methodInAThread(self, numOfLoops=10):
+        for idx in range(numOfLoops):
+            sleep(1)
             self.scr.insert(tk.INSERT, str(idx) + '\n')
+        sleep(1)
+        print('methodInAThread():', self.runT.isAlive())
 
+    # Running methods in Threads
     def createThread(self):
-        runT = Thread(target=self.methodInAThread)
-        runT.start()
+        self.runT = Thread(target=self.methodInAThread, args=[8])
+        self.runT.start()
+        print(self.runT)
+        print('createThread():', self.runT.isAlive())
 
     # Modified Button Click Function
     def click_me(self): 
