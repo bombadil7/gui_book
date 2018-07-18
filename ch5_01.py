@@ -14,12 +14,13 @@ yValues0 = [6, 7.5, 8, 7.5]
 yValues1 = [5.5, 6.5, 50, 6]
 yValues2 = [6.5, 7, 8, 7]
 
-t0, = axis.plot(xValues, yValues0, color = 'purple')
-t1, = axis.plot(xValues, yValues1, color = 'red')
-t2, = axis.plot(xValues, yValues2, color = 'blue')
+t0, = axis.plot(xValues, yValues0)
+t1, = axis.plot(xValues, yValues1)
+t2, = axis.plot(xValues, yValues2)
 
 axis.set_xlabel('Horizontal Label')
 axis.set_ylabel('Vertical Label')
+axis.set_ylim(5, 8)
 
 # axis.grid()   # default line style
 axis.grid(linestyle='-')  
