@@ -9,14 +9,23 @@ fig = Figure(figsize=(12, 8), facecolor='white')
 axis = fig.add_subplot(211)   # 2 rows, 1 column, Top graph
 #--------------------------------------------------------------
 xValues = [1, 2, 3, 4]
-yValues = [5, 7, 6, 8]
-axis.plot(xValues, yValues)
+
+yValues0 = [6, 7.5, 8, 7.5]
+yValues1 = [5.5, 6.5, 8, 6]
+yValues2 = [6.5, 7, 8, 7]
+
+t0 = axis.plot(xValues, yValues0)
+t1 = axis.plot(xValues, yValues1)
+t2 = axis.plot(xValues, yValues2)
 
 axis.set_xlabel('Horizontal Label')
 axis.set_ylabel('Vertical Label')
 
 # axis.grid()   # default line style
 axis.grid(linestyle='-')  
+
+fig.legend((t0, t1, t2), ('First line', 'Second line', 'Third line'), 
+            'upper right')
 #--------------------------------------------------------------
 axis1 = fig.add_subplot(212)   # 2 rows, 1 column, Top graph
 #--------------------------------------------------------------
