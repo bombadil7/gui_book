@@ -4,6 +4,17 @@ from tkinter import scrolledtext
 from tkinter import Menu
 from tkinter import messagebox as mBox
 
+class ToolTip(object):
+    def __init__(self, widget):
+        self.widget = widget
+        self.tipwindow = None
+        self.id = None
+        self.x = self.y = 0
+
+    def showtip(self, text):
+        "Display text in tooltip window"
+
+
 win = tk.Tk()
 win.title("Python GUI")
 # r escapes backslashes, so we don't have to type C:\\
@@ -92,10 +103,21 @@ for col in range(3):
             value=col, command=radCall)
     curRad.grid(column=col, row=6, sticky=tk.W)
 
+def _spin():
+    value = spin.get()
+    print(value)
+    scr.insert(tk.INSERT, value + '\n')
+
+#spin = tk.Spinbox(monty, from_=0, to=10, width=5, bd=8, command=_spin)
+spin = tk.Spinbox(monty, values=(1, 2, 4, 42, 100), width=5, bd=8, command=_spin)
+spin.grid(column=0, row=2)
+
+# Add second spinbox
+spin = tk.Spinbox(monty, values=(0, 50, 100), width=5, bd=8, relief=tk.RIDGE, command=_spin)
+spin.grid(column=1, row=2)
 # Using a scrolled Text control
 scrolW = 30
 scrolH = 3
-
 scr = scrolledtext.ScrolledText(monty, width=scrolW, height=scrolH, wrap=tk.WORD)
 scr.grid(column=0, columnspan=3, row=5)
 #scr.grid(column=0, columnspan=3, row=5, sticky='WE')
