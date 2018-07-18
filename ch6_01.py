@@ -40,6 +40,7 @@ class OOP():
     # Running methods in Threads
     def createThread(self):
         self.runT = Thread(target=self.methodInAThread, args=[8])
+        self.runT.setDaemon(True)
         self.runT.start()
         print(self.runT)
         print('createThread():', self.runT.isAlive())
