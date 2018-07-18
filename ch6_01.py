@@ -14,6 +14,8 @@ from tkinter import Spinbox
 from time import  sleep         # careful - this can freeze the GUI
 import ToolTip as tt
 
+from threading import Thread
+
 GLOBAL_CONST = 42
 
 #=================================================================== 
@@ -28,16 +30,27 @@ class OOP():
         self.win.title("Python GUI")      
         self.create_widgets()
 
+    def methodInAThread(self):
+        print('Hi, how are you?')
+        for idx in range(10):
+            sleep(5)
+            self.scr.insert(tk.INSERT, str(idx) + '\n')
+
+    def createThread(self):
+        runT = Thread(target=self.methodInAThread)
+        runT.start()
+
     # Modified Button Click Function
     def click_me(self): 
         self.action.configure(text='Hello ' + self.name.get() + ' ' + 
                          self.number_chosen.get())
+        self.createThread()
 
     # Spinbox callback 
     def _spin(self):
         value = self.spin.get()
         print(value)
-        self.scrol.insert(tk.INSERT, value + '\n')
+        self.scr.insert(tk.INSERT, value + '\n')
         
     # GUI Callback  
     def checkCallback(self, *ignored_args):
@@ -128,8 +141,8 @@ class OOP():
         # Using a scrolled Text control    
         scrol_w  = 40
         scrol_h  = 10 
-        self.scrol = scrolledtext.ScrolledText(mighty, width=scrol_w, height=scrol_h, wrap=tk.WORD)
-        self.scrol.grid(column=0, row=3, sticky='WE', columnspan=3)                    
+        self.scr = scrolledtext.ScrolledText(mighty, width=scrol_w, height=scrol_h, wrap=tk.WORD)
+        self.scr.grid(column=0, row=3, sticky='WE', columnspan=3)                    
         
         
         # Tab Control 2 ----------------------------------------------------------------------
@@ -230,4 +243,5 @@ class OOP():
 # Start GUI
 #======================
 oop = OOP()
+
 oop.win.mainloop()

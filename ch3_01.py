@@ -91,12 +91,11 @@ for col in range(3):
     curRad.grid(column=col, row=6, sticky=tk.W)
 
 # Using a scrolled Text control
-scrolW = 30
-scrolH = 3
+scrolW = 40
+scrolH = 10 
 
 scr = scrolledtext.ScrolledText(monty, width=scrolW, height=scrolH, wrap=tk.WORD)
-scr.grid(column=0, columnspan=3, row=5)
-#scr.grid(column=0, columnspan=3, row=5, sticky='WE')
+scr.grid(column=0, columnspan=3, row=3, sticky='WE')
 # Adding a Button
 action = ttk.Button(monty, text="Click Me!", command=clickMe)
 action.configure(state='disabled')  # Disable the Button Widget
