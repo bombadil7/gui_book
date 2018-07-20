@@ -116,11 +116,20 @@ spin.grid(column=0, row=2)
 spin = tk.Spinbox(monty, values=(0, 50, 100), width=5, bd=8, relief=tk.RIDGE, command=_spin)
 spin.grid(column=1, row=2)
 # Using a scrolled Text control
+<<<<<<< HEAD
 scrolW = 30
 scrolH = 3
+||||||| merged common ancestors
+scrolW = 30
+scrolH = 3
+
+=======
+scrolW = 40
+scrolH = 10 
+
+>>>>>>> 0db6b57735f92a9e6c973fe8dfc9e5b998b2b762
 scr = scrolledtext.ScrolledText(monty, width=scrolW, height=scrolH, wrap=tk.WORD)
-scr.grid(column=0, columnspan=3, row=5)
-#scr.grid(column=0, columnspan=3, row=5, sticky='WE')
+scr.grid(column=0, columnspan=3, row=3, sticky='WE')
 # Adding a Button
 action = ttk.Button(monty, text="Click Me!", command=clickMe)
 action.configure(state='disabled')  # Disable the Button Widget
