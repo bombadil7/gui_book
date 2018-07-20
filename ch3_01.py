@@ -4,8 +4,21 @@ from tkinter import scrolledtext
 from tkinter import Menu
 from tkinter import messagebox as mBox
 
+class ToolTip(object):
+    def __init__(self, widget):
+        self.widget = widget
+        self.tipwindow = None
+        self.id = None
+        self.x = self.y = 0
+
+    def showtip(self, text):
+        "Display text in tooltip window"
+
+
 win = tk.Tk()
 win.title("Python GUI")
+# r escapes backslashes, so we don't have to type C:\\
+win.iconbitmap(r'C:\Users\akniazev\AppData\Local\Programs\Python\Python36\DLLs\pyc.ico')
 
 tabControl = ttk.Notebook(win)
 tab1 = ttk.Frame(tabControl)
@@ -90,10 +103,31 @@ for col in range(3):
             value=col, command=radCall)
     curRad.grid(column=col, row=6, sticky=tk.W)
 
+def _spin():
+    value = spin.get()
+    print(value)
+    scr.insert(tk.INSERT, value + '\n')
+
+#spin = tk.Spinbox(monty, from_=0, to=10, width=5, bd=8, command=_spin)
+spin = tk.Spinbox(monty, values=(1, 2, 4, 42, 100), width=5, bd=8, command=_spin)
+spin.grid(column=0, row=2)
+
+# Add second spinbox
+spin = tk.Spinbox(monty, values=(0, 50, 100), width=5, bd=8, relief=tk.RIDGE, command=_spin)
+spin.grid(column=1, row=2)
 # Using a scrolled Text control
+<<<<<<< HEAD
+scrolW = 30
+scrolH = 3
+||||||| merged common ancestors
+scrolW = 30
+scrolH = 3
+
+=======
 scrolW = 40
 scrolH = 10 
 
+>>>>>>> 0db6b57735f92a9e6c973fe8dfc9e5b998b2b762
 scr = scrolledtext.ScrolledText(monty, width=scrolW, height=scrolH, wrap=tk.WORD)
 scr.grid(column=0, columnspan=3, row=3, sticky='WE')
 # Adding a Button
