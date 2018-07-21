@@ -1,7 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 import os
-import sys
+#import sys
+import subprocess
 from time import sleep
 from threading import Thread
 
@@ -15,6 +16,12 @@ class WinClass():
         self.h2c_path = '/dev/xdma0_h2c_0'
         self.user_path = '/dev/xdma0_user'
         self.control_path = '/dev/xdma0_control'
+        devices = [
+                    self.c2h_path,
+                    self.h2c_path,
+                    self.user_path,
+                    self.control_path,
+                  ]
         
         self.reboots_cnt = 0
         self.c2h_error_cnt = 0
@@ -22,9 +29,12 @@ class WinClass():
         self.user_error_cnt = 0
         self.control_error_cnt = 0
 
+        self.expected_permission = '-rw'
+
 #        tt.create_ToolTip(self.win, "Checking xdma file permission over multple reboots.")
         self.win.title("XDMA Device Permissions Check")
         self.create_widgets()
+        t = Thread(
 
     def create_widgets(self):
         self.labels_frame = ttk.LabelFrame(self.win, text='Devices')
@@ -61,6 +71,23 @@ class WinClass():
 
     def reboot_loop(self):
         while True:
+            self.update_counts()
+            # reboot
+            time.sleep(120)
+
+    def update_counts(self):
+        for device in devices:
+            device.errors += 1 if check_device(device.name) == False
+            device.text['text'] = str(device.errors)
+
+
+    def check_device(self, dev):
+        f = subprocess.check_output('adb shell ls -l ' + dev, shell=True)
+        perm = f.split()[0].decode('utf-8')
+        return perm[1:3] == 'rw' and perm[4:6] == 'rw'
+
+
+
             
 
 
