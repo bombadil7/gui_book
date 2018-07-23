@@ -6,7 +6,7 @@ import subprocess
 from time import sleep
 from threading import Thread
 
-from GUI_tooltip import ToolTip as tt
+#from GUI_tooltip import ToolTip as tt
 
 
 class Device():
@@ -41,8 +41,8 @@ class WinClass():
         self.progress_frame = ttk.LabelFrame(self.win, text='Reboot Progress')
         self.button_exit = ttk.Button(self.win, text="Exit", command=self._destroyWindow)
         self.button_start = ttk.Button(self.win, text="Start Loop", command=self.start_loop)
-        self.progress_bar = ttk.Progressbar(self.progress_frame, orient='horizontal', length=180, mode='determinate')
-        self.progress_label = ttk.Label(self.progress_frame, text='Reboot Progress', width=18)
+        self.progress_bar = ttk.Progressbar(self.progress_frame, orient='horizontal', length=170, mode='determinate')
+        self.progress_label = ttk.Label(self.progress_frame, text='Reboot Progress', width=22)
 
         self.labels_frame.grid(column=0, row=0, padx=10, pady=6)
         self.errors_frame.grid(column=1, row=0, padx=10, pady=6)
@@ -102,17 +102,15 @@ class WinClass():
                 self.update_counts()
                 self.iterations +=1 
                 self.reboots_field['text'] = str(self.iterations)
+                os.system("adb root")
+                os.system("adb shell reboot")
+                self.run_progressbar()
             except subprocess.CalledProcessError:
                 print("Got subprocess.CalledProcessError.")
                 print("Chances are that uSOM is not connected.  Let's check:")
                 os.system("adb devices")
-                print("Quitting now.")
-                self._destroyWindow()
             except:
                 print("Got some other error.  Rebooting.")
-            os.system("adb root")
-            os.system("adb shell reboot")
-            self.run_progressbar()
 
     def update_counts(self):
         for device in self.devices:
