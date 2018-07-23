@@ -10,11 +10,12 @@ from GUI_tooltip import ToolTip as tt
 
 
 class Device():
-    def __init__(self, _name='', _path='', _entry=''):
+    def __init__(self, _name='', _path='', _entry='',_permissions):
        self.name = _name
        self.path = _path
        self.errors = 0
        self.entry = _entry
+       self.permissions = _permissions 
 
 
 class WinClass():
@@ -27,23 +28,28 @@ class WinClass():
 #        tt.create_ToolTip(self.win, "Checking xdma file permission over multple reboots.")
         self.win.title("XDMA Device Permissions Check")
         self.create_widgets()
-        self.devices = [Device('c2h', '/dev/xdma0_c2h_0', self.c2h_errors), 
-                        Device('h2c', '/dev/xdma0_h2c_0', self.h2c_errors), 
-                        Device('user', '/dev/xdma0_user', self.user_errors), 
-                        Device('control', '/dev/xdma0_control', self.control_errors)]
+        self.devices = [Device('c2h', '/dev/xdma0_c2h_0', self.c2h_errors, self.c2h_perm_val), 
+                        Device('h2c', '/dev/xdma0_h2c_0', self.h2c_errors, self.h2c_perm_val), 
+                        Device('user', '/dev/xdma0_user', self.user_errors, self.user_perm_val), 
+                        Device('control', '/dev/xdma0_control', self.control_errors, self.control_perm_val)]
         
 
     def create_widgets(self):
         self.labels_frame = ttk.LabelFrame(self.win, text='Devices')
         self.errors_frame = ttk.LabelFrame(self.win, text='Permission Errors')
-#self.button = ttk.Button(self.win, text="Exit", command=self.win.quit)
+        self.permissions_frame = ttk.LabelFrame(self.win, text='Device Permissions')
         self.button_exit = ttk.Button(self.win, text="Exit", command=self._destroyWindow)
         self.button_start = ttk.Button(self.win, text="Start Loop", command=self.start_loop)
+        self.progress_bar = ttk.Progressbar(self.win, orient='horizontal', length=300, mode='determinate')
+        self.progress_label = ttk.Label(self.win, text='Reboot Progress')
 
         self.labels_frame.grid(column=0, row=0, padx=10, pady=10)
         self.errors_frame.grid(column=1, row=0, padx=10, pady=10)
-        self.button_exit.grid(column=1, row=1, sticky='WE', padx=10, pady=10)
-        self.button_start.grid(column=0, row=1, sticky='WE', padx=10, pady=10)
+        self.button_exit.grid(column=1, row=3, sticky='WE', padx=10, pady=10)
+        self.button_start.grid(column=0, row=3, sticky='WE', padx=10, pady=10)
+        self.progress_bar.grid(column=1, row=1, sticky='WE', padx=10, pady=10)
+        self.progress_label.grid(column=0, row=1, sticky='W', padx=10, pady=10)
+        self.permissions_frame.grid(column=0, row=2, padx=10, pady=10)
 
         self.reboots_label = ttk.Label(self.labels_frame, text="NUMBER OF REBOOTS")
         self.c2h_label = ttk.Label(self.labels_frame, text="XDMA_C2H ERRORS")
@@ -58,10 +64,6 @@ class WinClass():
         self.control_label.pack(padx=8, pady=5, anchor='w')
 
         self.reboots_field = ttk.Label(self.errors_frame, text=str(self.iterations))
-#        self.c2h_errors = ttk.Label(self.errors_frame, text=str(self.devices[0].errors))
-#        self.h2c_errors = ttk.Label(self.errors_frame, text=str(self.devices[1].errors))
-#        self.user_errors = ttk.Label(self.errors_frame, text=str(self.devices[2].errors))
-#        self.control_errors = ttk.Label(self.errors_frame, text=str(self.devices[3].errors))
         self.c2h_errors = ttk.Entry(self.errors_frame)
         self.h2c_errors = ttk.Entry(self.errors_frame)
         self.user_errors = ttk.Entry(self.errors_frame)
@@ -72,6 +74,21 @@ class WinClass():
         self.h2c_errors.pack(padx=8, pady=4)
         self.user_errors.pack(padx=8, pady=4)
         self.control_errors.pack(padx=8, pady=4)
+
+        ttk.Label(self.permissions_frame, text="C2H").grid(column=0, row=0, padx=10, pady=10)
+        ttk.Label(self.permissions_frame, text="H2C").grid(column=0, row=1, padx=10, pady=10)
+        ttk.Label(self.permissions_frame, text="USER").grid(column=2, row=0, padx=10, pady=10)
+        ttk.Label(self.permissions_frame, text="CONTROL").grid(column=2, row=1, padx=10, pady=10)
+        self.c2h_perm_val = ttk.Label(self.permissions_frame, text="-")
+        self.c2h_perm_val = ttk.Label(self.permissions_frame, text="-")
+        self.c2h_perm_val = ttk.Label(self.permissions_frame, text="-")
+        self.c2h_perm_val = ttk.Label(self.permissions_frame, text="-")
+
+        self.c2h_perm_val.grid(column=1, row=0, sticky='W', padx=10, pady=10)
+        self.h2c_perm_val.grid(column=1, row=1, sticky='W', padx=10, pady=10)
+        self.user_perm_val.grid(column=3, row=0, sticky='W', padx=10, pady=10)
+        self.control_perm_val.grid(column=3, row=1, sticky='W', padx=10, pady=10)
+        
 
     def start_loop(self):
         self.t = Thread(target=self.reboot_loop, daemon=True)    # daemon to ensure graceful shut-down
@@ -86,8 +103,8 @@ class WinClass():
             print(subprocess.check_output('adb shell id', shell=True))
             os.system("adb root")
             os.system("adb shell reboot")
-            sleep(120)
-            sleep(10)
+#            sleep(120)
+            self.run_progressbar()
 
     def update_counts(self):
         for device in self.devices:
@@ -108,6 +125,21 @@ class WinClass():
 #os.system("adb shell reboot -p")
         self.win.quit()
         self.win.destroy()
+
+    def run_progressbar(self):
+        self.progress_bar["maximum"] = 2400
+        self.progress_label['text'] = 'Rebooting uSOM'
+        for i in range(2401):
+            sleep(0.05)
+            self.progress_bar["value"] = i
+            self.progress_bar.update()
+            if i == 2200:
+                self.progress_label['text'] = 'Checking Permissions'
+        self.progress_bar["value"] = 0
+
+
+
+
 
 if __name__ == '__main__':
     main_window = WinClass()
