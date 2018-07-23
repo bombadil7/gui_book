@@ -84,9 +84,9 @@ class WinClass():
             self.reboots_field['text'] = self.iterations 
             os.system("adb root")
             print(subprocess.check_output('adb shell id', shell=True))
-#os.system("adb root")
-#os.system("adb shell reboot")
-#sleep(120)
+            os.system("adb root")
+            os.system("adb shell reboot")
+            sleep(120)
             sleep(10)
 
     def update_counts(self):
