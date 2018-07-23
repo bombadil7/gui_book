@@ -57,7 +57,11 @@ class WinClass():
         self.user_label.pack(padx=8, pady=5, anchor='w')
         self.control_label.pack(padx=8, pady=5, anchor='w')
 
-        self.reboots_field = ttk.Entry(self.errors_frame)
+        self.reboots_field = ttk.Label(self.errors_frame, text=str(self.iterations))
+#        self.c2h_errors = ttk.Label(self.errors_frame, text=str(self.devices[0].errors))
+#        self.h2c_errors = ttk.Label(self.errors_frame, text=str(self.devices[1].errors))
+#        self.user_errors = ttk.Label(self.errors_frame, text=str(self.devices[2].errors))
+#        self.control_errors = ttk.Label(self.errors_frame, text=str(self.devices[3].errors))
         self.c2h_errors = ttk.Entry(self.errors_frame)
         self.h2c_errors = ttk.Entry(self.errors_frame)
         self.user_errors = ttk.Entry(self.errors_frame)
@@ -89,7 +93,9 @@ class WinClass():
         for device in self.devices:
             if self.check_device(device.path) == False:
                 device.errors += 1 
-            device.entry['text'] = str(device.errors)
+            print(device.name + ' '+ str(device.errors))
+            device.entry.delete(0)
+            device.entry.insert(0, str(device.errors))
 
     def check_device(self, devpath):
         f = subprocess.check_output('adb shell ls -l ' + devpath, shell=True)
