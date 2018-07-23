@@ -41,8 +41,8 @@ class WinClass():
         self.progress_frame = ttk.LabelFrame(self.win, text='Reboot Progress')
         self.button_exit = ttk.Button(self.win, text="Exit", command=self._destroyWindow)
         self.button_start = ttk.Button(self.win, text="Start Loop", command=self.start_loop)
-        self.progress_bar = ttk.Progressbar(self.progress_frame, orient='horizontal', length=200, mode='determinate')
-        self.progress_label = ttk.Label(self.progress_frame, text='Reboot Progress')
+        self.progress_bar = ttk.Progressbar(self.progress_frame, orient='horizontal', length=180, mode='determinate')
+        self.progress_label = ttk.Label(self.progress_frame, text='Reboot Progress', width=18)
 
         self.labels_frame.grid(column=0, row=0, padx=10, pady=6)
         self.errors_frame.grid(column=1, row=0, padx=10, pady=6)
@@ -98,12 +98,20 @@ class WinClass():
 
     def reboot_loop(self):
         while True:
-            self.update_counts()
-            self.iterations +=1 
-            self.reboots_field['text'] = str(self.iterations)
+            try:
+                self.update_counts()
+                self.iterations +=1 
+                self.reboots_field['text'] = str(self.iterations)
+            except subprocess.CalledProcessError:
+                print("Got subprocess.CalledProcessError.")
+                print("Chances are that uSOM is not connected.  Let's check:")
+                os.system("adb devices")
+                print("Quitting now.")
+                self._destroyWindow()
+            except:
+                print("Got some other error.  Rebooting.")
             os.system("adb root")
             os.system("adb shell reboot")
-#            sleep(120)
             self.run_progressbar()
 
     def update_counts(self):
@@ -127,14 +135,14 @@ class WinClass():
 
     def run_progressbar(self):
         self.progress_bar["maximum"] = 2400
-        self.progress_label['text'] = 'Rebooting uSOM '
+        self.progress_bar["value"] = 0
+        self.progress_label['text'] = 'uSOM Booting Up'
         for i in range(2401):
             sleep(0.05)
             self.progress_bar["value"] = i
             self.progress_bar.update()
-            if i == 2200:
-                self.progress_label['text'] = 'Checking Permis'
-        self.progress_bar["value"] = 0
+#if i == 2200:
+        self.progress_label['text'] = 'Checking Permissions'
 
 if __name__ == '__main__':
     main_window = WinClass()
