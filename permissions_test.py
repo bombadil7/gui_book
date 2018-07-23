@@ -100,7 +100,7 @@ class WinClass():
         while True:
             self.update_counts()
             self.iterations +=1 
-            self.reboots_field['text'] = self.iterations 
+            self.reboots_field['text'] = str(self.iterations)
             os.system("adb root")
             os.system("adb shell reboot")
 #            sleep(120)
