@@ -12,12 +12,14 @@ from tkinter import Menu
 from tkinter import messagebox as msg
 from tkinter import Spinbox
 from time import  sleep         # careful - this can freeze the GUI
-import ToolTip as tt
+from tkinter import filedialog as fd
+from os import path
 
 from threading import Thread
 from time import sleep
 from queue import Queue
 
+import ToolTip as tt
 import Queues as bq
 
 GLOBAL_CONST = 42
@@ -259,6 +261,10 @@ class OOP():
         # Button Callback
         def getFileName():
             print('hello from getFileName')
+            print("__file__: " + __file__)
+            fDir = path.dirname(__file__)
+            print("fDir: " + fDir)
+            fName = fd.askopenfilename(parent=self.win, initialdir=fDir)
 
         # Add Widgets to Manage Files Frame
         lb = ttk.Button(mngFilesFrame, text="Browse to File...",
