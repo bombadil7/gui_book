@@ -144,6 +144,7 @@ class OOP():
         # LabelFrame using tab1 as the parent
         mighty = ttk.LabelFrame(tab1, text=' Mighty Python ')
         mighty.grid(column=0, row=0, padx=8, pady=4)
+
         
         # Modify adding a Label using mighty as the parent instead of win
         a_label = ttk.Label(mighty, text="Enter a name:")
@@ -249,7 +250,57 @@ class OOP():
         file_menu.add_separator()
         file_menu.add_command(label="Exit", command=self._quit)
         menu_bar.add_cascade(label="File", menu=file_menu)
-        
+
+############################################################################
+        # Create Manage Files Frame
+        mngFilesFrame = ttk.LabelFrame(tab2, text=' Manage Files: ')
+        mngFilesFrame.grid(column=0, row=1, sticky='WE', padx=10, pady=5)
+
+        # Button Callback
+        def getFileName():
+            print('hello from getFileName')
+
+        # Add Widgets to Manage Files Frame
+        lb = ttk.Button(mngFilesFrame, text="Browse to File...",
+                command=getFileName)
+        lb.grid(column=0, row=0, sticky=tk.W)
+
+        file = tk.StringVar()
+        self.entryLen = scrol_w
+        self.fileEntry = ttk.Entry(mngFilesFrame, width=self.entryLen,
+                textvariable=file)
+        self.fileEntry.grid(column=1, row=0, sticky=tk.W)
+
+        logDir = tk.StringVar()
+        self.netwEntry = ttk.Entry(mngFilesFrame, width=self.entryLen,
+                textvariable=logDir)
+        self.netwEntry.grid(column=1, row=1, sticky=tk.W)
+
+        def copyFile():
+            import shutil
+            src = self.fileEntry.get()
+            file = src.split('/')[-1]
+            dst = self.netwEntry.get() + '\\' + file
+            try:
+                shutil.copy(src, dst)
+                mBox.showinfo('Copy File to Network', 
+                        'Success: File copied')
+            except FileNotFoundError as err:
+                mBox.showerror('Copy File to Network',
+                        '*** Failed to copy file! ***\n\n' + str(err))
+            except Exception as err:
+                mBox.showerror('Copy File to Network',
+                        '*** Failed to copy file! ***\n\n' + str(err))
+
+        cb = ttk.Button(mngFilesFrame, text="Copy File To :  ",
+                command=copyFile)
+        cb.grid(column=0, row=1, sticky=tk.E)
+
+        # Add some space around each label
+        for child in mngFilesFrame.winfo_children():
+            child.grid_configure(padx=6, pady=6)
+###########################################################################
+
         # Display a Message Box
         def _msgBox():
             msg.showinfo('Python Message Info Box', 'A Python GUI created using tkinter:\nThe year is 2017.')  
