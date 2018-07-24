@@ -53,18 +53,31 @@ class OOP():
 
 
     # Running methods in Threads
-    def createThread(self):
-        self.runT = Thread(target=self.methodInAThread, args=[8])
+    def createThread(self, num):
+        self.runT = Thread(target=self.methodInAThread, args=[num])
         self.runT.setDaemon(True)
         self.runT.start()
         print(self.runT)
         print('createThread():', self.runT.isAlive())
 
+        # textBoxes are the consumers of queue data
+        writeT = Thread(target=self.useQueues, daemon=True)
+        writeT.start()
+
+    # Create Queue instance
+    def useQueues(self):
+        guiQueue = Queue()
+        print(guiQueue)
+        for idx in range(10):
+            guiQueue.put('Message from a queue: ' + str(idx))
+        while True:
+            print(guiQueue.get())
+
     # Modified Button Click Function
     def click_me(self): 
         self.action.configure(text='Hello ' + self.name.get() + ' ' + 
                          self.number_chosen.get())
-        self.createThread()
+        self.createThread(8)
 
     # Spinbox callback 
     def _spin(self):
