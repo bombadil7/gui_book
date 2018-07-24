@@ -18,6 +18,8 @@ from threading import Thread
 from time import sleep
 from queue import Queue
 
+import Queues as bq
+
 GLOBAL_CONST = 42
 
 #=================================================================== 
@@ -31,6 +33,7 @@ class OOP():
         # Add a title       
         self.win.title("Python GUI")      
         self.create_widgets()
+        self.guiQueue = Queue()
 
     def useQueues(self):
         self.guiQueue = Queue()
@@ -66,18 +69,15 @@ class OOP():
 
     # Create Queue instance
     def useQueues(self):
-        guiQueue = Queue()
-        print(guiQueue)
-        for idx in range(10):
-            guiQueue.put('Message from a queue: ' + str(idx))
+        print(self.guiQueue)
         while True:
-            print(guiQueue.get())
+            print(self.guiQueue.get())
 
     # Modified Button Click Function
     def click_me(self): 
-        self.action.configure(text='Hello ' + self.name.get() + ' ' + 
-                         self.number_chosen.get())
-        self.createThread(8)
+        # Passing in the current class instance (self)
+        print(self)
+        bq.writeToScrol(self)
 
     # Spinbox callback 
     def _spin(self):
