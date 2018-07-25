@@ -19,13 +19,21 @@ from os import makedirs
 from threading import Thread
 from time import sleep
 from queue import Queue
+from tkinter import messagebox as mBox
 
 import ToolTip as tt
 import Queues as bq
 
+from os import getcwd
 GLOBAL_CONST = 42
-fDir = path.dirname(__file__)
+fDir = path.dirname(path.abspath(__file__))
 netDir = fDir + '\\Backup'
+print("fDir: " + str(fDir))
+print("netDir: " + netDir)
+#print("path.basename: " + path.basename(__file__))
+#print("getcwd: " + getcwd())
+#print("dirname: " + path.dirname(path.abspath(__file__)))
+#print("abspath: " + path.abspath(__file__))
 if not path.exists(netDir):
     makedirs(netDir, exist_ok = True)
 
@@ -48,12 +56,14 @@ class OOP():
         self.fileEntry.insert(0, fDir)
         if len(fDir) > self.entryLen:
             self.fileEntry.config(width=len(fDir) + 3)
-            self.fileEntry.config(state='readonly')
+            # Readonly would make it impossible to change to the actual file we
+            # want to copy
+ #           self.fileEntry.config(state='readonly')
 
         self.netwEntry.delete(0, tk.END)
         self.netwEntry.insert(0, netDir)
         if len(netDir) > self.entryLen:
-            self.netwEntry(width=len(netDir) + 3)
+            self.netwEntry.config(width=len(netDir) + 3)
 
     def useQueues(self):
         self.guiQueue = Queue()
@@ -281,6 +291,11 @@ class OOP():
             print('hello from getFileName')
 #            fDir = path.dirname(__file__)
             fName = fd.askopenfilename(parent=self.win, initialdir=fDir)
+            print("fName: " + fName)
+            self.fileEntry.delete(0, tk.END)
+            self.fileEntry.insert(0, fName)
+            self.fileEntry.config(width=len(fName) + 3)
+#            self.fileEntry.config(state='readonly')
 
         # Add Widgets to Manage Files Frame
         lb = ttk.Button(mngFilesFrame, text="Browse to File...",
@@ -291,6 +306,7 @@ class OOP():
         self.entryLen = scrol_w
         self.fileEntry = ttk.Entry(mngFilesFrame, width=self.entryLen,
                 textvariable=file)
+        self.fileEntry.bind("<Return>", (lambda event: copyFile()))
         self.fileEntry.grid(column=1, row=0, sticky=tk.W)
 
         logDir = tk.StringVar()
@@ -301,7 +317,11 @@ class OOP():
         def copyFile():
             import shutil
             src = self.fileEntry.get()
-            file = src.split('/')[-1]
+            if len(src.split('/')) > 2:
+                file = src.split('/')[-1]
+            else:
+                file = src.split("\\")[-1]
+
             dst = self.netwEntry.get() + '\\' + file
             try:
                 shutil.copy(src, dst)
