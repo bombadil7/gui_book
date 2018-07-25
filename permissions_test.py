@@ -36,7 +36,7 @@ class WinClass():
 
     def create_widgets(self):
         self.labels_frame = ttk.LabelFrame(self.win, text='Devices')
-        self.errors_frame = ttk.LabelFrame(self.win, text='Permission Errors')
+        self.errors_frame = ttk.LabelFrame(self.win, text='Test Statistics')
         self.permissions_frame = ttk.LabelFrame(self.win, text='Device Permissions')
         self.progress_frame = ttk.LabelFrame(self.win, text='Reboot Progress')
         self.button_exit = ttk.Button(self.win, text="Exit", command=self._destroyWindow)
@@ -109,6 +109,11 @@ class WinClass():
                 print("Got subprocess.CalledProcessError.")
                 print("Chances are that uSOM is not connected.  Let's check:")
                 os.system("adb devices")
+                print("Will try to reboot")
+                sleep(60)
+                os.system("adb root")
+                os.system("adb shell reboot")
+                sleep(120)
             except:
                 print("Got some other error.  Rebooting.")
 
