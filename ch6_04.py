@@ -104,12 +104,6 @@ class OOP():
         writeT = Thread(target=self.useQueues, daemon=True)
         writeT.start()
 
-    # Create Queue instance
-    def useQueues(self):
-        print(self.guiQueue)
-        while True:
-            print(self.guiQueue.get())
-
     # Modified Button Click Function
     def click_me(self): 
         # Passing in the current class instance (self)
