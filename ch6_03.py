@@ -14,6 +14,7 @@ from tkinter import Spinbox
 from time import  sleep         # careful - this can freeze the GUI
 from tkinter import filedialog as fd
 from os import path
+from os import makedirs
 
 from threading import Thread
 from time import sleep
@@ -23,6 +24,10 @@ import ToolTip as tt
 import Queues as bq
 
 GLOBAL_CONST = 42
+fDir = path.dirname(__file__)
+netDir = fDir + '\\Backup'
+if not path.exists(netDir):
+    makedirs(netDir, exist_ok = True)
 
 #=================================================================== 
 class OOP():
@@ -35,7 +40,20 @@ class OOP():
         # Add a title       
         self.win.title("Python GUI")      
         self.create_widgets()
+        self.defaultFileEntries()
         self.guiQueue = Queue()
+
+    def defaultFileEntries(self):
+        self.fileEntry.delete(0, tk.END)
+        self.fileEntry.insert(0, fDir)
+        if len(fDir) > self.entryLen:
+            self.fileEntry.config(width=len(fDir) + 3)
+            self.fileEntry.config(state='readonly')
+
+        self.netwEntry.delete(0, tk.END)
+        self.netwEntry.insert(0, netDir)
+        if len(netDir) > self.entryLen:
+            self.netwEntry(width=len(netDir) + 3)
 
     def useQueues(self):
         self.guiQueue = Queue()
@@ -261,9 +279,7 @@ class OOP():
         # Button Callback
         def getFileName():
             print('hello from getFileName')
-            print("__file__: " + __file__)
-            fDir = path.dirname(__file__)
-            print("fDir: " + fDir)
+#            fDir = path.dirname(__file__)
             fName = fd.askopenfilename(parent=self.win, initialdir=fDir)
 
         # Add Widgets to Manage Files Frame
@@ -305,6 +321,7 @@ class OOP():
         # Add some space around each label
         for child in mngFilesFrame.winfo_children():
             child.grid_configure(padx=6, pady=6)
+
 ###########################################################################
 
         # Display a Message Box
@@ -327,7 +344,8 @@ class OOP():
         # call function
         self.usingGlobal()
         
-        name_entered.focus()     
+#name_entered.focus()     
+        tabControl.select(1)
          
 #======================
 # Start GUI
