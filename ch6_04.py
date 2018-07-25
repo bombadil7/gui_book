@@ -24,8 +24,10 @@ from tkinter import messagebox as mBox
 
 import ToolTip as tt
 import Queues as bq
+import URL as url
 
 from os import getcwd
+
 GLOBAL_CONST = 42
 fDir = path.dirname(path.abspath(__file__))
 netDir = fDir + '\\Backup'
@@ -111,8 +113,11 @@ class OOP():
     # Modified Button Click Function
     def click_me(self): 
         # Passing in the current class instance (self)
-        print(self)
         bq.writeToScrol(self)
+        sleep(2)
+        htmlData = url.getHtml()
+        print(htmlData)
+        self.scr.insert(tk.INSERT, htmlData)
 
     # Spinbox callback 
     def _spin(self):
